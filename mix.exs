@@ -23,7 +23,8 @@ defmodule AirlineAPIAggregator.MixProject do
     [
       {:plug_cowboy, "~> 2.0"},
       {:poison, "~> 3.0"},
-      {:sweet_xml, "~> 0.6.5"}
+      {:sweet_xml, "~> 0.6.5"},
+      {:httpoison, "~> 1.4"}
     ]
   end
 end
