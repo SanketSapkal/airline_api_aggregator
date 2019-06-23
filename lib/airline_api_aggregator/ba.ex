@@ -27,15 +27,9 @@ defmodule AirlineAPIAggregator.BA do
   """
   @spec parse_xml_and_get_cheapest_offer(String.t) :: tuple
   def parse_xml_and_get_cheapest_offer(xml) do
-    cheapest_ticket =
-      xml
-      |> xpath(~x"//AirlineOffers/AirlineOffer/TotalPrice/SimpleCurrencyPrice/text()"l)
-      |> Enum.map(fn price ->
-        price |> to_string |> String.to_float
-      end)
-      |> Enum.min
-
-    {@airline_code, cheapest_ticket}
+    xml
+    |> xpath(~x"//AirlineOffers/AirlineOffer/TotalPrice/SimpleCurrencyPrice/text()"l)
+    |> get_min_ticket()
   end
 
   #
@@ -60,5 +54,26 @@ defmodule AirlineAPIAggregator.BA do
         IO.puts("Failed with reason: #{reason}")
         {:error, reason}
     end
+  end
+
+  #
+  # Case where no flights are found for the route on the specified date.
+  #
+  defp get_min_ticket([]) do
+    {:error, "No flights found."}
+  end
+
+  #
+  # Flights are found in reponse xml from airline
+  #
+  defp get_min_ticket(ticket_list) do
+    cheapest_ticket =
+      ticket_list
+      |> Enum.map(fn price ->
+        price |> to_string |> String.to_float
+      end)
+      |> Enum.min
+
+    {@airline_code, cheapest_ticket}
   end
 end

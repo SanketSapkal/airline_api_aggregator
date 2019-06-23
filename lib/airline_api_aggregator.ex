@@ -54,7 +54,7 @@ defmodule AirlineAPIAggregator do
   """
   @spec get_cheapest_flight(String.t, String.t, String.t) :: map()
   def get_cheapest_flight(origin, destination, date) do
-    GenServer.call(@genserver_name, {:get_cheapest_flight, {origin, destination, date}})
+    GenServer.call(@genserver_name, {:get_cheapest_flight, {origin, destination, date}}, @default_timeout)
   end
 
   @doc """

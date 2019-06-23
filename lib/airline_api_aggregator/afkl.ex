@@ -27,15 +27,9 @@ defmodule AirlineAPIAggregator.AFKL do
   SweetXML library. The XML parsing is specific to AFKL airlines.
   """
   def parse_xml_and_get_cheapest_offer(xml) do
-    cheapest_ticket =
-      xml
-      |> xpath(~x"//AirlineOffers/Offer/TotalPrice/DetailCurrencyPrice/Total/text()"l)
-      |> Enum.map(fn price ->
-        price |> to_string |> String.to_float
-      end)
-      |> Enum.min
-
-    {@airline_code, cheapest_ticket}
+    xml
+    |> xpath(~x"//AirlineOffers/Offer/TotalPrice/DetailCurrencyPrice/Total/text()"l)
+    |> get_min_ticket()
   end
 
   #
@@ -43,8 +37,6 @@ defmodule AirlineAPIAggregator.AFKL do
   # compose the http requests.
   # Status code other than 200 is considered as error.
   #
-  # TODO: Not able to get data from AFKL using HTTPoison. Problem occurs due to
-  # the quoted SOAPAction header is not being processed properly.
   defp get_data(body) do
     url = Application.get_env(:airline_api_aggregator, :afkl)[:url]
     headers = Application.get_env(:airline_api_aggregator, :afkl)[:headers]
@@ -59,5 +51,26 @@ defmodule AirlineAPIAggregator.AFKL do
         IO.puts("Failed with reason: #{reason}")
         {:error, reason}
     end
+  end
+
+  #
+  # Case where no flights are found for the route on the specified date.
+  #
+  defp get_min_ticket([]) do
+    {:error, "No flights found."}
+  end
+
+  #
+  # Flights are found in reponse xml from airline
+  #
+  defp get_min_ticket(ticket_list) do
+    cheapest_ticket =
+      ticket_list
+      |> Enum.map(fn price ->
+        price |> to_string |> String.to_float
+      end)
+      |> Enum.min
+
+    {@airline_code, cheapest_ticket}
   end
 end

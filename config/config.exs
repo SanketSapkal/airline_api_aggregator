@@ -30,7 +30,7 @@ config :airline_api_aggregator, :afkl,
   url: "https://ndc-rct.airfranceklm.com/passenger/distribmgmt/001448v01/EXT",
   headers: [{"Content-Type", "text/xml"},
             {"SOAPAction", ~s("http://www.af-klm.com/services/passenger/ProvideAirShopping/provideAirShopping")},
-            {"api-key", "mdug6d7y75e36vvpa487j5k7"}],
+            {"api_key", "mdug6d7y75e36vvpa487j5k7"}],
   body: ~s(<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">
             <soapenv:Header/><soapenv:Body xmlns=\"http://www.iata.org/IATA/EDIST/2017.1\">
               <AirShoppingRQ Version=\"17.1\"><Document/>
