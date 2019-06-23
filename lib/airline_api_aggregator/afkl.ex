@@ -1,4 +1,9 @@
 defmodule AirlineAPIAggregator.AFKL do
+  @moduledoc """
+  AFKL airlines aggregator module. Fetches data from airlines. Currently fetches
+  the flight data for a origin airport to destination airport on the specified
+  date.
+  """
 
   import SweetXml
 
@@ -6,12 +11,21 @@ defmodule AirlineAPIAggregator.AFKL do
 
   @airline_code "AFKL"
 
+  @doc """
+  Get the direct cheapest flight(from AFKL airlines) between two airports on the
+  given date.
+  """
+  @spec get_cheapest_offer(String.t, String.t, String.t) :: tuple
   def get_cheapest_offer(origin, destination, date) do
     Application.get_env(:airline_api_aggregator, :afkl)[:body]
     |> AirlineAPIAggregator.prepare_body(origin, destination, date)
     |> get_data
   end
 
+  @doc """
+  Get the cheapest flight from the given xml flight data. The XML is parsed using
+  SweetXML library. The XML parsing is specific to AFKL airlines.
+  """
   def parse_xml_and_get_cheapest_offer(xml) do
     cheapest_ticket =
       xml
@@ -24,6 +38,13 @@ defmodule AirlineAPIAggregator.AFKL do
     {@airline_code, cheapest_ticket}
   end
 
+  #
+  # Request data from airlines using http post requests. HTTPoison is used to
+  # compose the http requests.
+  # Status code other than 200 is considered as error.
+  #
+  # TODO: Not able to get data from AFKL using HTTPoison. Problem occurs due to
+  # the quoted SOAPAction header is not being processed properly.
   defp get_data(body) do
     url = Application.get_env(:airline_api_aggregator, :afkl)[:url]
     headers = Application.get_env(:airline_api_aggregator, :afkl)[:headers]

@@ -16,7 +16,7 @@ defmodule AirlineAPIAggregatorTest do
   @ba_xml "./priv/sample_xml/BA.xml"
   @afkl_xml "./priv/sample_xml/AFKL.xml"
 
-  test "success on getting cheapest ticket" do
+  test "success status code on getting cheapest ticket" do
     conn =
       :get
       |> conn("/findCheapestOffer?origin=#{@origin}&destination=#{@destination}&departureDate=#{@date}")
@@ -26,7 +26,7 @@ defmodule AirlineAPIAggregatorTest do
     assert conn.status == 200
   end
 
-  test "returns 404" do
+  test "returns 404 when a non supported api is called" do
     conn =
       :get
       |> conn("/someAPI", "")
