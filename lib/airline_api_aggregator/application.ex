@@ -6,7 +6,9 @@ defmodule AirlineAPIAggregator.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      Plug.Cowboy.child_spec(scheme: :http, plug: AirlineAPIAggregator.Router, options: [port: 4000])
+      Plug.Cowboy.child_spec(scheme: :http, plug: AirlineAPIAggregator.Router, options: [port: 4000]),
+      {AirlineAPIAggregator, []},
+      {AirlineAPIAggregator.RateLimiter, []}
     ]
 
     opts = [strategy: :one_for_one, name: AirlineAPIAggregator.Supervisor]

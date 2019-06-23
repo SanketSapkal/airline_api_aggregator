@@ -55,6 +55,4 @@ defmodule AirlineAPIAggregatorTest do
 
     assert expected_result == actual_result
   end
-
-  # TODO: Add test case to check rate limiter.
 end

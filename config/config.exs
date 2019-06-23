@@ -51,3 +51,7 @@ config :airline_api_aggregator, :afkl,
               </AirShoppingRQ>
             </soapenv:Body>
           </soapenv:Envelope>)
+
+config :airline_api_aggregator, :rate_limiter,
+  tokens_per_day: 100,
+  tokens_per_second: 3
