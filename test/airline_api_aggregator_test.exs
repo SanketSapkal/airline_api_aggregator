@@ -57,7 +57,4 @@ defmodule AirlineAPIAggregatorTest do
   end
 
   # TODO: Add test case to check rate limiter.
-
-  # TODO: Add test case for cheapest ticket when the xml data is taken from disk rather than rest api.
-
 end

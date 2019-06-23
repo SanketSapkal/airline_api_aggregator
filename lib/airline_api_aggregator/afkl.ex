@@ -6,7 +6,7 @@ defmodule AirlineAPIAggregator.AFKL do
 
   @airline_code "AFKL"
 
-  def get_cheapest_offer(origin, destination, date, :web) do
+  def get_cheapest_offer(origin, destination, date) do
     {@airline_code, 56.19}
   end
 

@@ -6,7 +6,7 @@ defmodule AirlineAPIAggregator.BA do
 
   @airline_code "BA"
 
-  def get_cheapest_offer(origin, destination, date, :web) do
+  def get_cheapest_offer(origin, destination, date) do
     {@airline_code, 55.19}
   end
 
