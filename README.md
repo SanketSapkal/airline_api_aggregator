@@ -13,8 +13,8 @@ The cheapest flights across the connected airlines are concurrently being get
 and the cheapest among them is returned to the user.
 
 ## Environment details:
-  elixir: 1.8
-  erlang otp: 21
+- elixir: 1.8
+- erlang otp: 21
 
 ## Steps to follow:
   1. Change airlines configurations in config/config.exs
